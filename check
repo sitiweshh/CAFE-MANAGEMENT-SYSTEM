@@ -1,0 +1,48 @@
+//Function to check the product number already given or not
+int getproduct()
+{
+ifstream objiff;
+product st;
+int count=0;
+objiff.open("product.csv",ios::binary);
+objiff.seekg(0,ios::beg);
+if(!objiff)
+{
+cout<<"File could not be open !! Press any Key..."<<endl;
+cin.get();
+}
+while(objiff.read((char *) &st, sizeof(product)))
+{
+count++;
+}
+objiff.seekg(count-sizeof(st),ios::beg);
+objiff.read((char *) &st, sizeof(product));
+count=st.retpno();
+count++;
+objiff.close();
+return count;
+}
+//Function to read specific record from file
+void display_sp(int n)
+{
+int flag=0;
+fp.open("product.csv",ios::in);
+if(!fp)
+{
+cout<<"File could not be open !! Press any Key..."<<endl;
+cin.get();
+return;
+}
+while(fp.read((char*)&pr,sizeof(product)))
+{
+if(pr.retpno()==n)
+{
+pr.show_prod();
+flag=1;
+}
+}
+fp.close();
+if(flag==0)
+cout<<"\n\nRecord doesnot exist"<<endl;
+cin.get();
+}
