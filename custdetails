@@ -1,0 +1,88 @@
+//Function to modify the customer details
+void customer::modifycust_data(int n1,char nm[15],char add[15],char q[15])
+{
+char tmpnm[40],tmpnm2[40],tmpnm3[15];
+char yes1,yes2,yes3;
+cust_id=n1;
+strcpy(cname,nm);
+cout<<"NAME OF CUSTOMER:"<<endl;
+cout<<cname<<endl;
+cout<<"Want to change the name of customer ? (Yes[ y or Y ] or NO [n or N])"<<endl;
+int flag=0;
+while(1)
+{
+cin>>yes1;
+if(yes1== 'Y' || yes1== 'y')
+{
+cout<<"Enter new name\n";
+cin>>tmpnm;
+flag=1;
+break;
+}
+if(yes1== 'N' || yes1== 'n')
+{
+flag=0;
+break;
+}
+}
+if(flag==1)
+{
+strcpy(cname,tmpnm);
+}
+strcpy(address,add);
+cout<<"CUSTOMER ADDRESS:"<<endl;
+cout<<address<<endl;
+cout<<"Want to change the address ? (Yes[ y or Y ] or NO [n or N])"<<endl;
+flag=0;
+while(1)
+{
+cin>>yes2;
+if(yes2== 'Y' || yes2== 'y')
+{
+cout<<"Enter new address\n";
+cin>>tmpnm2;
+flag=1;
+break;
+}
+if(yes2== 'N' || yes2== 'n')
+{
+flag=0;
+break;
+}
+}
+if(flag==1)
+{
+strcpy(address,tmpnm2);
+}
+strcpy(phno,q);
+cout<<"CUSTOMER PHONE NO.:"<<endl;
+cout<<phno<<endl;
+cout<<"Want to change the phone no. ? (Yes[ y or Y ] or NO [n or N])"<<endl;
+flag=0;
+while(1)
+{
+cin>>yes3;
+if(yes3== 'Y' || yes3== 'y')
+{
+cout<<"Enter new phone no.\n";
+cin>>tmpnm3;
+flag=1;
+break;
+}
+if(yes3== 'N' || yes3== 'n')
+{
+flag=0;
+break;
+}
+}
+if(flag==1)
+{
+strcpy(phno,tmpnm3);
+}
+if((yes3== 'Y' || yes3== 'y') || (yes2== 'Y' || yes2== 'y') || (yes1== 'Y' || yes1== 'y'))
+cout<<"********************* NEW CUSTOMER RECORD SAVED
+**********************"<<endl;
+else
+cout<<"******************** NO CUSTOMER RECORD CHANGED
+**********************"<<endl;
+}
