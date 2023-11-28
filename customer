@@ -1,0 +1,55 @@
+class customer
+{
+int cust_id;
+char cname[100];
+char address[100];
+char phno[15];
+public:
+void modifycust_data(int n1,char nm[15],char add[15],char q[15]);
+int getcustid()
+{
+return cust_id;
+}
+char *getcustnm()
+{
+return cname;
+}
+char *getcustadd()
+{
+return address;
+}
+char *getphno()
+{
+return phno;
+}
+//function for taking input from customer
+void cust_input(int custid)
+{
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<"CUSTOMER NO : ";
+cust_id=custid;
+cout<<cust_id<<endl;
+cout<<"NAME OF CUSTOMER :"<<endl;
+cin>>cname;
+cout<<"ADDRESS :"<<endl;
+cin>>address;
+cout<<"PHONE NO. :"<<endl;
+cin>>phno;
+cout<<"-------------------------------------------------------------------------"<<endl;
+}
+//function to show customer details
+void showallcust(int c)
+{
+cout<<"
+"<<cust_id<<setw(15)<<cname<<setw(23)<<address<<setw(27)<<phno<<endl;
+}
+void show_cust()
+{
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<"CUSTOMER NO : "<<cust_id<<endl;
+cout<<"NAME OF CUSTOMER : "<<cname<<endl;
+cout<<"ADDRESS : "<<address<<endl;
+cout<<"PHONE NO. : "<<phno<<endl;
+cout<<"-------------------------------------------------------------------------"<<endl;
+}
+};
