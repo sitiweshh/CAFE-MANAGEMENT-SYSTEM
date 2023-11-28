@@ -1,0 +1,380 @@
+// INTRODUCTION FUNCTION
+void intro()
+{
+cout<<endl;
+cout<<"**************** T A T I A N A'S C A F E *****************"<<endl;
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<"************* M A N A G E M E N T S Y S T E M *****************************"<<endl;
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<"PROJECT BUILT BY : "<<endl;
+cout<<" AUNI, MADIEY, SITI AND AIN "<<endl;
+cout<<endl;
+cout<<"\nWelcome to Tatiana's Cafe";
+cout<<"\nPlease press ENTER to continue\n";
+cout<<"===================================================================
+======"<<endl;
+cin.get();
+}
+// Customer Menu Function
+void customer_menu()
+{
+char ch2;
+int num;
+cout<<"\n========================== CUSTOMERS MENU
+=========================="<<endl;
+cout<<"1.CREATE CUSTOMERS DETAILS"<<endl;
+cout<<"2.DISPLAY ALL CUSTOMERS DETAILS"<<endl;
+cout<<"3.SEARCH RECORD (QUERY) "<<endl;
+cout<<"4.MODIFY CUSTOMERS RECORDS"<<endl;
+cout<<"5.DELETE CUSTOMERS RECORDS"<<endl;
+cout<<"6.BACK TO MAIN MENU"<<endl;
+cout<<"Please Enter Your Choice (1-6) "<<endl;
+cin>>ch2;
+switch(ch2)
+{
+case '1':
+write_customer();
+customer_menu();
+break;
+case '2':
+cust_tabular();
+customer_menu();
+break;
+case '3':
+cout<<"ENTER THE CUSTOMER ID TO BE SEARCHED:"<<endl;
+cin>>num;
+display_cust_sp(num);
+customer_menu();
+break;
+case '4':
+cust_tabular();
+cout<<"\nENTER THE CUSTOMER ID TO BE MODIFIED:"<<endl;
+cin>>num;
+modify_cust_record(num);
+customer_menu();
+break;
+case '5':
+cust_tabular();
+cout<<"\nENTER THE CUSTOMER ID TO BE DELETED:"<<endl;
+cin>>num;
+deletecust_record(num);
+customer_menu();
+break;
+case '6':
+mainMenu();
+break;
+default:
+cout<<"Please enter valid option"<<endl;
+}
+}
+// Product menu Function
+void product_menu()
+{
+char ch2;
+int num;
+cout<<"\n========================== PRODUCTS MENU
+==========================="<<endl;
+cout<<"1.CREATE PRODUCTS"<<endl;
+cout<<"2.DISPLAY ALL PRODUCTS AVAILABLE"<<endl;
+cout<<"3.SEARCH RECORD (QUERY) "<<endl;
+cout<<"4.MODIFY PRODUCTS"<<endl;
+cout<<"5.DELETE PRODUCTS"<<endl;
+cout<<"6.BACK TO MAIN MENU"<<endl;
+cout<<"Please Enter Your Choice (1-6) "<<endl;
+cin>>ch2;
+switch(ch2)
+{
+case '1':
+write_book();
+product_menu();
+break;
+case '2':
+prod_tabular();//product_detail_heading();
+product_menu();
+break;
+case '3':
+cout<<"\nENTER THE PRODUCT ID TO BE SEARCHED:"<<endl;
+cin>>num;
+display_sp(num);
+product_menu();
+break;
+case '4':
+prod_tabular();
+cout<<"\nENTER THE PRODUCT ID TO BE MODIFIED:"<<endl;
+cin>>num;
+modify_record(num);
+product_menu();
+break;
+case '5':
+prod_tabular();
+cout<<"\nENTER THE PRODUCT ID TO BE DELETED:"<<endl;
+cin>>num;
+delete_record(num);
+product_menu();
+break;
+case '6':
+mainMenu();
+break;
+default:
+cout<<"a";
+product_menu();
+}
+}
+// 1st type Function to be display customer options while placing order
+void cust_menu1()
+{
+char ch2;
+int num;
+cout<<"\n-------------------------------------------------------------------------"<<endl;
+cout<<" E N T E R C U S T O M E R D E T A I L S :\n";
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<"1.CREATE NEW CUSTOMER DETAIL"<<endl;
+cout<<"2.DISPLAY ALL CUSTOMERS DETAILS"<<endl;
+cout<<"3.BACK TO MAIN MENU"<<endl;
+cout<<"4.CONTINUE TO BILL\n"<<endl;
+cout<<"Please Enter Your Choice (1-4) "<<endl;
+cin>>ch2;
+switch(ch2)
+{
+case '1':
+write_customer1();
+break;
+case '2':
+cust_tabular();
+cust_menu2();
+break;
+case '3':
+mainMenu();
+break;
+case '4':
+orderk=0;
+place_order();
+break;
+default:
+cout<<"Please enter valid option"<<endl;
+}
+}
+// 2nd type Function to be display customer options while placing order
+void cust_menu2()
+{
+char ch2;
+int num;
+cout<<"\n-------------------------------------------------------------------------"<<endl;
+cout<<" C H O O S E N E X T O P T I O N S:\n";
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<"1.CREATE NEW CUSTOMER DETAIL"<<endl;
+cout<<"2.BACK TO MAIN MENU"<<endl;
+cout<<"3.CONTINUE TO BILL\n"<<endl;
+cout<<"Please Enter Your Choice (1-3) "<<endl;
+cin>>ch2;
+switch(ch2)
+{
+case '1':
+write_customer1();
+break;
+case '2':
+mainMenu();
+break;
+case '3':
+orderk=0;
+place_order();
+break;
+default:
+cout<<"Please enter valid option"<<endl;
+}
+}
+// 3rd type Function to be display customer options while placing order
+void cust_menu3()
+{
+char ch2;
+int num;
+cout<<"\n-------------------------------------------------------------------------"<<endl;
+cout<<" C H O O S E N E X T O P T I O N S:\n";
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<"1.DISPLAY ALL CUSTOMERS DETAILS"<<endl;
+cout<<"2.BACK TO MAIN MENU"<<endl;
+cout<<"3.CONTINUE TO BILL\n"<<endl;
+cout<<"Please Enter Your Choice (1-3) "<<endl;
+cin>>ch2;
+switch(ch2)
+{
+case '1':
+cust_tabular();
+cust_menu2();
+break;
+case '2':
+mainMenu();
+break;
+case '3':
+orderk=0;
+place_order();
+break;
+default:
+cout<<"Please enter valid option"<<endl;
+}
+}
+// Function for mainmenu
+void mainMenu(){
+char ch;
+do
+{
+cout<<endl;
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<"**** T A T I A N A'S C A F E M A N A G E M E N T S Y S T E M
+*****"<<endl;
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<endl;
+cout<<"============================= MAIN MENU
+============================"<<endl;
+cout<<"1. PLACE ORDER"<<endl;
+cout<<"2. ADMINISTRATOR MODE"<<endl;
+cout<<"3. EXIT"<<endl;
+cout<<"===================================================================
+====="<<endl;
+cout<<"Please Select Your Option (1-3) "<<endl;
+cin>>ch;
+switch(ch)
+{
+case '1':
+cust_menu1();
+break;
+case '2':
+administratormenu();
+break;
+case '3':
+exit(0);
+default :
+cout<<"Please enter valid option"<<endl;
+}
+}while(ch!='3');
+}
+// Administrator menu function
+void administratormenu()
+{
+char ch;
+do
+{
+cout<<endl;
+cout<<"========================= ADMINISTRATOR MENU
+======================="<<endl;
+cout<<"1. CUSTOMERS MENU"<<endl;
+cout<<"2. PRODUCTS MENU"<<endl;
+cout<<"3. BACK TO MAIN MENU"<<endl;
+cout<<"===================================================================
+====="<<endl;
+cout<<"Please Select Your Option (1-3) "<<endl;
+cin>>ch;
+switch(ch)
+{
+case '1':
+customer_menu();
+break;
+case '2':
+product_menu();
+break;
+case '3':
+mainMenu();
+break;
+default :
+cout<<"Please enter valid option"<<endl;
+}
+}while(ch!='3');
+}
+int Login()
+{
+label:
+cout<<endl;
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<"***** T A T I A N A'S C A F E M A N A G E M E N T S Y S T E M *****"<<endl;
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<endl;
+cout<<"1.REGISTER"<<endl;
+cout<<"2.LOGIN"<<endl;
+cout<<"3.EXIT"<<endl;
+string p,q,w;
+int x;string s;
+cin>>x;
+if(x==1)
+{
+ofstream fout;
+cout<<"ENTER YOUR USERNAME"<<endl;
+cin>>s;
+cout<<"ENTER YOUR PASSWORD"<<endl;
+cin>>p;
+s=s+p;
+ifstream fin;
+string line;
+int offset=0;
+fin.open("myfile.txt");
+if(fin.is_open())
+{
+while(!fin.eof())
+{
+getline(fin,line);
+if(line.find(s,0)!=-1)
+{
+cout<<"Sorry! This username is not available"<<endl;
+cout<<"Press any key to go to Home Page"<<endl;
+char kk;
+cin>>kk;
+goto label;
+//break;
+}
+}
+}
+fin.close();
+fout.open("myfile.txt",ios::app);
+fout<<s+"\n";
+fout.close();
+goto label;
+}
+else if(x==2){
+string line;
+ifstream fin;
+int offset=0;
+cout<<"ENTER YOUR USERNAME"<<endl;
+cin>>q;
+cout<<"ENTER YOUR PASSWORD"<<endl;
+cin>>w;
+q=q+w;
+fin.open("myfile.txt");
+if(fin.is_open())
+{
+while(!fin.eof())
+{
+getline(fin,line);
+if(line.find(q,0)!=-1)
+{
+cout<<"You are logged in !!"<<endl;
+offset=1;
+mainMenu();
+break;
+}
+}
+if(offset==0)
+{
+cout<<"Sorry, You are unauthorised!!"<<endl;
+cout<<"Press 1 and enter, to go to Home page"<<endl;
+char o;
+cin>>o;
+goto label;
+}
+}
+fin.close();
+}
+else if(x==3)
+{
+return 0;
+}
+else
+{
+goto label;
+}
+}
+// THE MAIN FUNCTION OF PROGRAM
+int main()
+{
+intro();
+Login();
+return 0;
+}
