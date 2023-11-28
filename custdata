@@ -1,0 +1,291 @@
+//Fuction to write customer data
+void write_customer1()
+{
+ofstream objoff;
+customer cobj;
+objoff.open("customer.csv",ios::out|ios::app);
+int r=getcustomers();
+if(r>100) //1000
+{
+r=1; // r=100
+}
+cobj.cust_input(r);
+objoff.write((char*)&cobj,sizeof(customer));
+objoff.close();
+cout<<"*********************** CUSTOMER RECORD SAVED ***********************"<<endl;
+cin.ignore();
+cin.get();
+cust_menu3();
+}
+int before_order()
+{
+int f=-1,num=0;
+customer cust;
+cout<<"ENTER THE CUSTOMER ID TO BILL:"<<endl;
+cin>>num;
+ifstream inFile;
+inFile.open("customer.csv",ios::binary);
+if(!inFile)
+{
+cout<<"File could not be open !! Press any Key..."<<endl;
+cin.get();
+return -1;
+}
+while(inFile.read((char *) &cust, sizeof(customer)))
+{
+if(cust.getcustid()==num)
+{
+cust.show_cust();
+f=1;
+//tmprt=(int)inFile.tellg();
+break;
+}
+}
+inFile.close();
+return f;
+}
+//Product class starts here:
+class product
+{
+int prodid;
+char name[50];
+char company[50];
+int qty;
+float price,dis;
+public:
+product()
+{
+qty=0;
+price=0;
+dis=0;
+}
+void modifydata(int n1,char snm[15],char companynm[15],int q);
+void create_prod(int rn1)
+{
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<"PRODUCT NO : ";
+prodid=rn1;
+cout<<prodid<<endl;
+cout<<"NAME OF PRODUCT :"<<endl;
+cin>>name;
+cout<<"COMPANY :"<<endl;
+cin>>company;
+cout<<"PRODUCT PRICE :"<<endl;
+cin>>price;
+cout<<"QUANTITY :"<<endl;
+cin>>qty;
+cout<<"DISCOUNT% :"<<endl;
+cin>>dis;
+cout<<"-------------------------------------------------------------------------"<<endl;
+}
+void show_prod()
+{
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<"PRODUCT NO : "<<prodid<<endl;
+cout<<"NAME OF PRODUCT : "<<name<<endl;
+cout<<"COMPANY : "<<company<<endl;
+cout<<"PRODUCT PRICE : "<<price<<endl;
+cout<<"QUANTITY : "<<qty<<endl;
+cout<<"DISCOUNT% : "<<dis<<"%"<<endl;
+cout<<"-------------------------------------------------------------------------"<<endl;
+}
+//Function shows product data in tabular form
+void showall(int c)
+{
+cout<<"
+"<<prodid<<setw(15)<<name<<setw(11)<<company<<setw(11)<<"RM"<<price<<setw(10)<<qty
+<<setw(13)<<dis<<"%"<<endl;
+}
+int retpno()
+{
+return prodid;
+}
+float retprice()
+{
+return price;
+}
+char* getcompany()
+{
+return company;
+}
+char* getname()
+{
+return name;
+}
+int getqty()
+{
+return qty;
+}
+float retdis()
+{
+return dis;
+}
+void setqty(int q21)
+{
+qty=q21;
+}
+};
+// Product class ends here
+// Fuction to modify product details
+void product::modifydata(int n1,char snm[15],char companynm[15],int q)
+{
+char tmpnm[40],tmpnm2[40];
+char yes1,yes2;
+cout<<"PRODUCT NO: ";
+prodid=n1;
+cout<<prodid<<endl;
+strcpy(name,snm);
+cout<<"NAME OF PRODUCT:"<<endl;
+cout<<name<<endl;
+cout<<"Want to change the name of product ? (Yes[ y or Y ] or NO [n or N])"<<endl;
+int flag=0;
+while(1)
+{
+cin>>yes1;
+if(yes1== 'Y' || yes1== 'y')
+{
+cout<<"Enter new name\n";
+cin>>tmpnm;
+flag=1;
+break;
+}
+if(yes1== 'N' || yes1== 'n')
+{
+flag=0;
+break;
+}
+}
+if(flag==1)
+{
+strcpy(name,tmpnm);
+}
+strcpy(company,companynm);
+//COMPANY NAME TO BE MODIFY
+cout<<"COMPANY NAME:"<<endl;
+cout<<company<<endl;
+cout<<"Want to change the company name ? (Yes[ y or Y ] or NO [n or N])"<<endl;
+flag=0;
+while(1)
+{
+cin>>yes2;
+if(yes2== 'Y' || yes2== 'y')
+{
+cout<<"Enter new company name:\n";
+cin>>tmpnm2;
+flag=1;
+break;
+}
+if(yes2== 'N' || yes2== 'n')
+{
+flag=0;
+break;
+}
+}
+if(flag==1)
+{
+strcpy(company,tmpnm2);
+}
+cout<<"PRICE:"<<endl;
+//add the line to display price
+float tmppr=0;
+char yes4,yes3,yes5;
+cout<<"Want to change the price of product ? (Yes[ y or Y ] or NO [n or N])"<<endl;
+flag=0;
+while(1)
+{
+cin>>yes3;
+if(yes3== 'Y' || yes3== 'y')
+{
+cout<<"Enter new price of product:\n";
+cin>>tmppr;
+flag=1;
+break;
+}
+if(yes3== 'N' || yes3== 'n')
+{
+flag=0;
+break;
+}
+}
+if(flag==1)
+{
+price=tmppr;
+}
+cout<<"QUANTITY:"<<endl;
+//add the line to display quantity
+int tmpqty=0;
+cout<<"Want to change the quantity of product ? (Yes[ y or Y ] or NO [n or N])"<<endl;
+flag=0;
+while(1)
+{
+cin>>yes4;
+if(yes4== 'Y' || yes4== 'y')
+{
+cout<<"Enter new quantity:\n";
+cin>>tmpqty;
+flag=1;
+break;
+}
+if(yes4== 'N' || yes4== 'n')
+{
+flag=0;
+break;
+}
+}
+if(flag==1)
+{
+qty=tmpqty;
+}
+cout<<"DISCOUNT%:"<<endl;
+//add the line to display discount
+float tmpdis=0;
+cout<<"Want to change the discount of product ? (Yes[ y or Y ] or NO [n or N])"<<endl;
+flag=0;
+while(1)
+{
+cin>>yes5;
+if(yes5== 'Y' || yes5== 'y')
+{
+cout<<"Enter new discount"<<'%'<<"on the product:\n";
+cin>>tmpdis;
+flag=1;
+break;
+}
+if(yes5== 'N' || yes5== 'n')
+{
+flag=0;
+break;
+}
+}
+if(flag==1)
+{
+dis=tmpdis;
+}
+if((yes3== 'Y' || yes3== 'y') || (yes2== 'Y' || yes2== 'y') || (yes1== 'Y' || yes1== 'y') || (yes4==
+'Y' || yes4== 'y') || (yes5== 'Y' || yes5== 'y'))
+cout<<"********************* NEW PRODUCT RECORD SAVED
+*********************"<<endl;
+else
+cout<<"******************** NO PRODUCT RECORD CHANGED
+*********************"<<endl;
+}
+// Global declaration for stream object
+fstream fp;
+// Class function outside
+product pr;
+// Function to write product details in file
+void write_book()
+{
+fp.open("product.csv",ios::out|ios::app);
+int rnn=getproduct();
+if(rnn>100)
+{
+rnn=1;
+}
+pr.create_prod(rnn);
+fp.write((char*)&pr,sizeof(product));
+fp.close();
+cout<<"*********************** PRODUCTS RECORD SAVED ************************"<<endl;
+cin.ignore();
+cin.get();
+}
