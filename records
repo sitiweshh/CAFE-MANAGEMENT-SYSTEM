@@ -1,0 +1,69 @@
+//Function to add the records in file
+void write_customer()
+{
+ofstream objoff;
+customer cobj;
+objoff.open("customer.csv",ios::out|ios::app);
+int r=getcustomers();
+if(r>100) //1000
+{
+r=1; // r=100
+}
+cobj.cust_input(r);
+objoff.write((char*)&cobj,sizeof(customer));
+objoff.close();
+cout<<"*********************** CUSTOMER RECORD SAVED ***********************"<<endl;
+cin.ignore();
+cin.get();
+}
+//Function to check the customer number already given or not
+int getcustomers()
+{
+ifstream objiff;
+customer cust;
+int count=0;
+objiff.open("customer.csv",ios::binary);
+objiff.seekg(0,ios::beg);
+if(!objiff)
+{
+cout<<"File could not be open !! Press any Key..."<<endl;
+cin.get();
+}
+while(objiff.read((char *) &cust, sizeof(customer)))
+{
+count++;
+}
+//***********jump to the last line
+objiff.seekg(count-sizeof(cust),ios::beg);
+objiff.read((char *) &cust, sizeof(customer));
+count=cust.getcustid();
+count++;
+objiff.close();
+return count;
+}
+// Function to read specific record from file
+void display_cust_sp(int n)
+{
+ifstream objfp;
+customer cust;
+int flag=0;
+objfp.open("customer.csv",ios::binary);
+if(!objfp)
+{
+cout<<"File could not be open !! Press any Key..."<<endl;
+cin.get();
+return;
+}
+while(objfp.read((char*)&cust,sizeof(customer)))
+{
+if(cust.getcustid()==n)
+{
+cust.show_cust();
+flag=1;
+}
+}
+objfp.close();
+if(flag==0)
+cout<<"\n\nRecord does not exist"<<endl;
+cin.get();
+}
