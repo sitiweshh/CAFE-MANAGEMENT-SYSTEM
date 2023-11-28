@@ -1,0 +1,340 @@
+//Function to place order and generating invoice for PRODUCT PURCHASED
+void place_order()
+{
+order o1[50];
+int c=0,pr1=0;
+float amt=0,damt=0,total=0,ttaxt=0;
+int k=0,q1;
+char ch='Y';
+int ptx[100];
+int v=0;
+int value=before_order();
+if(value==1)
+{
+cout<<endl;
+do
+{
+prod_tabular();
+cout<<"===================================================================
+====="<<endl;
+cout<<" PLACE YOUR ORDER "<<endl;
+cout<<"===================================================================
+====="<<endl;
+cout<<"ENTER THE PRODUCT NO: "<<endl;
+cin>>pr1;
+k=search(pr1);
+if(k>0)
+{
+cout<<"Enter the Quantity:"<<endl;
+cin>>q1;
+copyme(k,o1,q1,c);
+ptx[v]=pr1;v++;
+}
+else
+{
+cout<<"PRODUCT not found"<<endl;
+}
+cout<<"Do you want purchase more ? (Yes[ y or Y ] or NO [n or N])"<<endl;
+cin>>ch;
+}while(ch=='y' || ch=='Y');
+cout<<"Thank You For Placing The Order ........"<<endl<<endl;
+cin.get();
+cout<<"===================================================================
+=====\n"<<endl;
+cout<<"***************************** INVOICE ******************************"<<endl;
+cout<<"------------------------------------------------------------------------"<<endl;
+cout<<"PR.No."<<setw(7)<<"NAME"<<setw(10)<<"Qty"<<setw(12)<<"Price"<<setw(13)<<"Amo
+unt"<<setw(23)<<"Amount - discount"<<endl<<endl;
+int yy=8;
+for(int x=0;x<c;x++)
+{
+amt=o1[x].qty1*o1[x].price1;
+damt=amt-o1[x].dis1;
+cout<<"
+"<<ptx[x]<<setw(10)<<o1[x].pname1<<setw(9)<<o1[x].qty1<<setw(12)<<"RM"<<o1[x].price1<<s
+etw(10)<<"RM"<<amt<<setw(14)<<"RM"<<damt<<endl;
+total+=damt;
+//ttaxt+=o1[x].tax1;
+yy++;
+}
+ttaxt=18;
+cout<<"\n-------------------------------------------------------------------------"<<endl;
+yy++;
+cout<<"\n TOTAL AMOUNT : "<<"RM"<<total<<endl;
+yy++;
+cout<<" GST : "<<"+"<<ttaxt/2<<"%"<<endl;
+yy++;
+cout<<"-------------------------------------------------------------------------"<<endl;
+yy++;
+cout<<" NET TOTAL : "<<"RM"<<(total+((ttaxt*total)/100))<<endl;
+yy++;
+cout<<" ROUND OFF AMOUNT :
+"<<"RM"<<setprecision(2)<<(round(total+((ttaxt*total)/100))-(total+((ttaxt*total)/100)))<<endl;
+cout<<" NET AMOUNT DUE :
+"<<"RM"<<fixed<<round(total+((ttaxt*total)/100))<<endl<<endl;
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<" P A Y M E N T S U M M A R Y "<<endl;
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<" Enter CASH value : RM";
+float vb,xy;
+cin>>vb;
+xy=(vb-round(total+((ttaxt*total)/100)));
+if(xy<0)
+{
+cout<<"\nSorry! You have paid Insufficient cash. Please reinitiate billing. Thank
+You."<<endl;
+cust_menu1();
+}
+else
+{
+cout<<" Change to be returned : RM"<<xy<<endl;
+changeqty(pr1,q1);
+cout<<"-------------------------------------------------------------------------"<<endl;
+cout<<"\n\n THANK YOU FOR SUPPORTING TATIANA'S CAFE\n";
+cout<<"\n HAVE A NICE DAY !\n\n";
+cout<<"===================================================================
+======\n"<<endl;
+}
+cin.get();
+}
+else
+{
+cout<<"************************** YOUR ID IS WRONG ***************************"<<endl;
+cust_menu1();
+}
+}
+//FUNCTION TO DISPLAY ALL THE PRODUCTS IN TABULAR FORM
+void prod_tabular()
+{
+int r=0,col=10;
+product st;
+ifstream inFile;
+inFile.open("product.csv",ios::binary);
+if(!inFile)
+{
+cout<<"File could not be open !! Press any Key..."<<endl;
+cin.get();
+return;
+}
+product_detail_heading();
+while(inFile.read((char *) &st, sizeof(product)))
+{
+if(r<=12)
+{
+r++;
+st.showall(col);
+col++;
+}
+else
+{
+cout<<"----------------------------- Press any key ----------------------------"<<endl;
+cin.get();
+product_detail_heading();
+col=10;
+r=0;
+}
+}
+inFile.close();
+cin.get();
+}
+//Function to display heading of the product details
+void product_detail_heading()
+{
+cout<<"===================================================================
+====="<<endl;
+cout<<"************************* PRODUCTS DETAILS *************************"<<endl;
+cout<<"===================================================================
+====="<<endl;
+cout<<"PROD.NO"<<setw(10)<<"NAME"<<setw(13)<<"COMPANY"<<setw(12)<<"PRICE"<<set
+w(13)<<"QUANTITY"<<setw(15)<<"DISCOUNT"<<endl;
+cout<<"------------------------------------------------------------------------"<<endl;
+}
+//FUNCTION TO MODIFY RECORD
+void modify_record(int n)
+{
+product st,temp;
+char tmpnm[50],tmpcompany[50];
+ifstream inFile;
+int fpos=-1;
+inFile.open("product.csv",ios::binary);
+if(!inFile)
+{
+cout<<"File could not be open !! Press any Key..."<<endl;
+cin.get();
+return;
+}
+int flag=0;
+while(inFile.read((char *) &st, sizeof(product)))
+{
+if(st.retpno()==n)
+{
+st.show_prod();
+flag=1;
+}
+}
+inFile.close();
+if(flag==0)
+cout<<"\n\nRecord doesnot exist"<<endl;
+else
+{
+fstream File;
+File.open("product.csv",ios::binary|ios::in|ios::out);
+if(!File)
+{
+cout<<"File could not be open !! Press any Key..."<<endl;
+cin.get();
+return;
+}
+while(File.read((char *) &st, sizeof(product)))
+{
+if(st.retpno()==n)
+{
+fpos=(int)File.tellg();
+break;
+}
+}
+File.seekp(fpos-sizeof(product),ios::beg);
+strcpy(tmpnm,st.getname());
+strcpy(tmpcompany,st.getcompany());
+int q1=st.getqty();
+cout<<"=========== ENTER NEW VALUES FOR THE RECORDS GIVEN ABOVE
+==========="<<endl;
+temp.modifydata(n,tmpnm,tmpcompany,q1);
+File.write((char *) &temp, sizeof(product));
+File.close();
+}
+}
+//FUNCTION TO DELETE THE RECORD OF THE PRODUCTS
+void delete_record(int n)
+{
+product st;
+ifstream inFile;
+inFile.open("product.csv",ios::binary);
+if(!inFile)
+{
+cout<<"File could not be open !! Press any Key..."<<endl;
+cin.get();
+return;
+}
+int flag=0;
+while(inFile.read((char *) &st, sizeof(product)))
+{
+if(st.retpno()==n)
+{
+st.show_prod();
+flag=1;
+}
+}
+inFile.close();
+char ch;
+if(flag==0)
+cout<<"\n\nRecord doesnot exist"<<endl;
+else
+{
+cout<<"DO YOU WANT TO DELETE THE RECORDS GIVEN ABOVE [YES(Y or y) OR
+NO(N or n)]"<<endl;
+cin>>ch;
+if (toupper(ch)=='Y')
+{
+ofstream outFile;
+outFile.open("Temp1.csv",ios::binary);
+29
+ifstream objiff("product.csv",ios::binary);
+objiff.seekg(0,ios::beg);
+while(objiff.read((char *) &st, sizeof(product)))
+{
+if(st.retpno()!=n)
+{
+outFile.write((char *) &st, sizeof(product));
+}
+}
+outFile.close();
+objiff.close();
+remove("product.csv");
+rename("Temp1.csv","product.csv");
+againopenandclose();
+cout<<"------------------------------Record Deleted----------------------------"<<endl;
+}
+}
+cin.get();
+}
+void againopenandclose()
+{
+ifstream inFile;
+product st;
+inFile.open("product.csv",ios::binary);
+if(!inFile)
+{
+cin.get();
+return;
+}
+while(inFile.read((char *) &st, sizeof(product)))
+{
+}
+inFile.close();
+}
+//Fuction to search the product
+int search(int p)
+{
+product st;
+int tmprt=0;
+ifstream inFile;
+inFile.open("product.csv",ios::binary);
+if(!inFile)
+{
+cout<<"File could not be open !! Press any Key..."<<endl;
+cin.get(); 
+return -1; }int flag=0; while(inFile.read((char*)&st, sizeof(product)))
+{ if(st.retpno()==p)
+{
+st.show_prd(); 
+flag=1; tmprt=(int)inFile.tellg();
+break; }
+}inFile.close(); 
+if(flag==0) return 1; else { return tmprt; }
+}
+//Function to change quantity of product
+void changeqty(intpr1,inq11)
+{
+productst; 
+int fpos=-1; fstream File; File.open("product.csv",ios::binary|ios::in|ios::out); 
+if(!File) { cout<<"File could not be open !! Press any Key..."<<endl; cin.get(); 
+return;
+}while(File.read((char *) &st, sizeof(product))) 
+{ if(st.retpno()==pr1) 
+{ fpos=(int)File.tellg();
+break; 
+} 
+}File.seekp(fpos-sizeof(product),ios::beg); 
+int q1=st.getqty();
+q1=q1-q11;
+if(q1>0)
+{
+st.setqty(q1);
+}
+else
+{
+cout<<"Insufficient quantity !"<<endl;
+cout<<"Please reinitiate the billing process.Thank you."<<endl;
+administratormenu();
+}
+File.write((char *) &st, sizeof(product));
+File.close();
+}
+//Fuction to copy all record to a structure
+void copyme(int k2,order order1[50],int q1,int &c2)
+{
+ifstream objiff2("product.csv",ios::binary);
+product bk1;
+objiff2.seekg(k2-sizeof(product));
+objiff2.read((char*)&bk1,sizeof(product));
+strcpy(order1[c2].pname1,bk1.getname());
+strcpy(order1[c2].compy1,bk1.getcompany());
+order1[c2].dis1=bk1.retdis();
+order1[c2].price1=bk1.retprice();
+//COPY RECORD
+order1[c2].qty1=q1;
+c2++;
+objiff2.close();
+}
+}
