@@ -1,0 +1,102 @@
+//FUNCTION TO DELETE THE RECORD OF THE CUSTOMER AVAILABLE
+void deletecust_record(int n)
+{
+customer cust;
+ifstream inFile;
+inFile.open("customer.csv",ios::binary);
+if(!inFile)
+{
+cout<<"File could not be open !! Press any Key..."<<endl;
+cin.get();
+return;
+}
+int flag=0;
+while(inFile.read((char *) &cust, sizeof(customer)))
+{
+if(cust.getcustid()==n)
+{
+cust.show_cust();
+flag=1;
+}
+}
+inFile.close();
+char ch;
+if(flag==0)
+cout<<"\n\nRecord does not exist"<<endl;
+else
+{
+//Deletion of the records starts from here
+cout<<"DO YOU WANT TO DELETE THE RECORDS GIVEN ABOVE [YES(Y or y) OR
+NO(N or n)]"<<endl;
+cin>>ch;
+if (toupper(ch)=='Y')
+{
+ofstream outFile;
+outFile.open("Temp2.csv",ios::binary);
+ifstream objiff("customer.csv",ios::binary);
+objiff.seekg(0,ios::beg);
+while(objiff.read((char *) &cust, sizeof(customer)))
+{
+if(cust.getcustid()!=n)
+{
+outFile.write((char *) &cust, sizeof(customer));
+}
+}
+outFile.close();
+objiff.close();
+remove("customer.csv");
+rename("Temp2.csv","customer.csv");
+againopenandclosecust();
+cout<<"---------------------------Record Deleted--------------------------------"<<endl;
+}
+}
+cin.get();
+}
+void againopenandclosecust()
+{
+ifstream inFile;
+customer cust;
+inFile.open("customer.csv",ios::binary);
+if(!inFile)
+{
+cin.get();
+return;
+}
+while(inFile.read((char *) &cust, sizeof(customer)))
+{
+}
+inFile.close();
+}
+//Search the customer
+int searchcust(int p)
+{
+customer cust;
+int tmprt=0;
+ifstream inFile;
+inFile.open("customer.csv",ios::binary);
+if(!inFile)
+{
+cout<<"File could not be open !! Press any Key..."<<endl;
+cin.get();
+return -1;
+}
+int flag=0;
+while(inFile.read((char *) &cust, sizeof(customer)))
+{
+if(cust.getcustid()==p)
+{
+cust.show_cust();
+flag=1;
+tmprt=(int)inFile.tellg();
+break;
+}
+}
+inFile.close();
+if(flag==0)
+return 1;
+//cout<<"\n\nRecord doesnot exist";
+else
+{
+return tmprt;
+}
+}
